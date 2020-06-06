@@ -1,0 +1,39 @@
+name: Dokka CLI error demo
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  dokka_0_9_18:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run dokka 0.9.18
+        run: |
+          curl https://github.com/Kotlin/dokka/releases/download/0.9.18/dokka-fatjar-0.9.18.jar --output dokka0.9.18.jar -L
+          shasum -a 256 dokka0.9.18.jar
+          mkdir tmp
+          output_directory=tmp
+          java -jar dokka0.9.18.jar ./ -format javadoc -output $output_directory
+          echo "~~~~~~~~~~~"
+          echo "Result:"
+          ls $output_directory
+          echo "~~~~~~~~~~~"
+  dokka_0_10_1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run dokka 0.10.1
+        run: |
+          curl https://github.com/Kotlin/dokka/releases/download/0.10.1/dokka-fatjar-0.10.1.jar --output dokka0.10.1.jar -L
+          shasum -a 256 dokka0.10.1.jar
+          mkdir tmp
+          output_directory=tmp
+          java -jar dokka0.10.1.jar ./ -format javadoc -output $output_directory
+          echo "~~~~~~~~~~~"
+          echo "Result:"
+          ls $output_directory
+          echo "~~~~~~~~~~~"
