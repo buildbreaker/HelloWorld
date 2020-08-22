@@ -26,13 +26,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run dokka 0.10.1
+      - name: Run dokka 1.4.0-rc
         run: |
-          curl https://github.com/Kotlin/dokka/releases/download/0.10.1/dokka-fatjar-0.10.1.jar --output dokka0.10.1.jar -L
+          curl https://github.com/Kotlin/dokka/releases/download/1.4.0-rc/dokka-fatjar-1.4.0-rc.jar --output dokka1.4.0-rc.jar -L
           shasum -a 256 dokka0.10.1.jar
           mkdir tmp
           output_directory=tmp
-          java -jar dokka0.10.1.jar ./ -format javadoc -output $output_directory
+          java -jar dokka1.4.0-rc.jar ./ -format javadoc -output $output_directory
           echo "~~~~~~~~~~~"
           echo "Result:"
           ls $output_directory
