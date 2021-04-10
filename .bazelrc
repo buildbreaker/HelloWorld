@@ -1,0 +1,9 @@
+build --define=google_grpc=disabled
+build --define=hot_restart=disabled
+build --define=signal_trace=disabled
+build --define=tcmalloc=disabled
+build --features=debug_prefix_map_pwd_is_dot
+build --javabase=@bazel_tools//tools/jdk:jdk
+build --define disable_known_issue_asserts=true
+build --define cxxopts=-std=c++17
+
