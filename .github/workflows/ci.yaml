@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  sqlc_delete_using:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install deps
+        run: |
+          brew install sqlc
+      - uses: actions/checkout@v2
+      - name: install and generate
+        run: |
+          brew install sqlc
+          sqlc version
+          sqlc generate
