@@ -19,11 +19,11 @@ _KEY_CREDS = os.environ.get("READWRITE_API_KEY", "")
 BASE64_ENCODED_CREDENTIALS = base64.b64encode("{}:{}".format(_USER_CREDS, _KEY_CREDS).encode()).decode()
 
 _ARTIFACT_HOST_URL = "https://oss.sonatype.org/service/local/staging"
-_GROUP_ID = "io.envoyproxy.envoy"
 _ARTIFACT_ID = "protoc-gen-validate"
-_LOCAL_INSTALL_PATH = os.path.expanduser("~/.m2/repository/{directory}/{artifact_id}".format(
-    directory=_GROUP_ID.replace(".", "/"),
-    artifact_id=_ARTIFACT_ID))
+def _local_install_path(group_id):
+    return os.path.expanduser("~/.m2/repository/{directory}/{artifact_id}".format(
+        directory=group_id.replace(".", "/"),
+        artifact_id=_ARTIFACT_ID))
 
 
 def _resolve_name(file):
@@ -52,8 +52,8 @@ def _resolve_name(file):
             return "", extension
 
 
-def _install_locally(version, files):
-    path = "{}/{}".format(_LOCAL_INSTALL_PATH, version)
+def _install_locally(version, files, group_id):
+    path = "{}/{}".format(_local_install_path(group_id), version)
 
     if os.path.exists(path):
         shutil.rmtree(path)
@@ -265,6 +265,10 @@ def _build_parser():
                         curl -u {usr}:{psswrd} -H "Accept: application/json"
                         https://oss.sonatype.org//nexus/service/local/staging/profile_repositories
                         """)
+    parser.add_argument("--group_id", required=False,
+                        help="""
+                        The group id of the artifact. This is primarily used for local maven installs.
+                        """)
     parser.add_argument("--version", default="LOCAL-SNAPSHOT",
                         help="""
                         The version of the artifact to be published. `LOCAL-SNAPSHOT` is defaulted
@@ -305,7 +309,7 @@ if __name__ == "__main__":
 
     version = args.version
     if args.local:
-        _install_locally(version, args.files)
+        _install_locally(version, args.files, args.group_id)
     else:
         staging_id = ""
 
