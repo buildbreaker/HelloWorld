@@ -1,0 +1,13 @@
+name: Gradle
+
+on:
+  pull_request:
+
+jobs:
+  gradle_build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install deps
+        run: |
+          ./gradlew build
