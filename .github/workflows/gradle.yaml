@@ -1,13 +1,13 @@
-name: Gradle
-
-on:
-  pull_request:
-
-jobs:
   gradle_build:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 11
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
       - name: Install deps
         run: |
-          ./gradle_project/gradlew build
+          ./gradlew build
