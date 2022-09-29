@@ -16,4 +16,4 @@ jobs:
         uses: gradle/gradle-build-action@v2
       - name: Install deps
         run: |
-          ./gradlew build
+          ./gradle_project/gradlew build
