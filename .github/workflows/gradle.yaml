@@ -1,3 +1,9 @@
+name: Gradle
+
+on:
+  pull_request:
+
+jobs:
   gradle_build:
     runs-on: macos-latest
     steps:
