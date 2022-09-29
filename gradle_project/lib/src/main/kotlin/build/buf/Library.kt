@@ -1,13 +1,10 @@
 package build.buf
 
-import buf.connect.kotlin.java_playground.BufInterface
+import io.envoyproxy.pgv.buf.Buf
 import buf.connect.kotlin.java_playground.AnotherInterface
 
-
 class Library {
-    fun someLibraryMethod(b: BufInterface, a: AnotherInterface): Boolean {
-        b.asdf()
-        return true
-    }
+    fun asdf(b: Buf) {
 
+    }
 }

@@ -39,7 +39,6 @@ dependencies {
     // This dependency is exported to consumers, that is to say found on their compile classpath.
     api("org.apache.commons:commons-math3:3.6.1")
 
-    api("io.envoyproxy.envoy:protoc-gen-validate:LOCAL-SNAPSHOT-1")
-//    implementation("io.envoyproxy.envoy:protoc-gen-validate:LOCAL-SNAPSHOT-1")
-
+    api("io.envoyproxy.protoc-gen-validate:pgv-java:0.6.9-rc.2")
+    // api("build.buf.protoc-gen-validate:pgv-java:0.6.9-rc.2")
 }
