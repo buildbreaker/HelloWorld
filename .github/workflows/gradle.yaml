@@ -10,4 +10,4 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install deps
         run: |
-          ./gradlew build
+          ./gradle_projects/gradlew build
