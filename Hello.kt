@@ -24,5 +24,5 @@ fun connect() {
 
     val response = elizaServiceClient.say(SayRequest(sentence = "Hello!"))
 
-    println(response?.message.sentence)
+    println(response.message?.sentence)
 }
