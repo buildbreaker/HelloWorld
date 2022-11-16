@@ -4,8 +4,6 @@ managed:
   go_package_prefix:
     default: buf/gen/yaml/override
 plugins:
-#  - remote: buf.build/achiu/plugins/pg-wire-swift:v0.0.1
-#    out: gen/proto/wire-swift
   - remote: buf.build/achiu/plugins/pg-wire-kotlin:v0.0.0-TEST1
     out: gen/proto/connect-kotlin
   - remote: buf.build/achiu/plugins/pg-connect-kotlin:v0.0.0-TEST1-8

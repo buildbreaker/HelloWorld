@@ -31,6 +31,7 @@ load("@rules_jvm_external//:defs.bzl", "maven_install")
 
 maven_install(
     artifacts = [
+        "build.buf:connect-library-pt:0.0.0-TEST1",
         "com.squareup.okhttp3:okhttp:4.10.0",
 
         "com.squareup.wire:wire-runtime-jvm:4.4.1",
