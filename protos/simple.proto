@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package proto3.simple;
+package buf.connect.demo.eliza.v1;
 
 // Hello service
 service Hello {
