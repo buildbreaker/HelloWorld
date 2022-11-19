@@ -1,0 +1,22 @@
+name: build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  plugins:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+      - uses: actions/setup-go@v3
+      - uses: bazelbuild/setup-bazelisk@v2
+      - uses: bufbuild/buf-setup-action@v1.8.0
+        with:
+          buf_token: ${{ secrets.buf_token }}
+          github_token: ${{ secrets.github_token }}
+        run: buf --version
