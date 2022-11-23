@@ -1,0 +1,108 @@
+From ab91645134ba225a4b276f78d822462ccb73f97b Mon Sep 17 00:00:00 2001
+From: Robbert van Ginkel <rvanginkel@buf.build>
+Date: Wed, 23 Nov 2022 14:26:40 -0500
+Subject: [PATCH] Minimal changes for square/wire
+
+based on 140aea1a6d3675efab7a1aee95fb6bfa59d23272
+---
+ .../teavm/classlib/java/lang/TCharacter.java  | 22 ++++++++++---------
+ .../teavm/classlib/java/lang/TRuntime.java    |  6 ++++-
+ .../atomic/TAtomicReferenceFieldUpdater.java  | 20 +++++++++++++++++
+ 3 files changed, 37 insertions(+), 11 deletions(-)
+ create mode 100644 classlib/src/main/java/org/teavm/classlib/java/util/concurrent/atomic/TAtomicReferenceFieldUpdater.java
+
+diff --git a/classlib/src/main/java/org/teavm/classlib/java/lang/TCharacter.java b/classlib/src/main/java/org/teavm/classlib/java/lang/TCharacter.java
+index 9ef3e922..32556229 100644
+--- a/classlib/src/main/java/org/teavm/classlib/java/lang/TCharacter.java
++++ b/classlib/src/main/java/org/teavm/classlib/java/lang/TCharacter.java
+@@ -241,13 +241,14 @@ public class TCharacter extends TObject implements TComparable<TCharacter> {
+     }
+ 
+     private static int toLowerCaseLowLevel(int codePoint) {
+-        return toLowerCaseSystem(codePoint);
++        return codePoint;
++        // return toLowerCaseSystem(codePoint);
+     }
+ 
+-    @Import(module = "teavm", name = "towlower")
+-    @Include("wctype.h")
+-    @Unmanaged
+-    private static native int toLowerCaseSystem(int codePoint);
++    // @Import(module = "teavm", name = "towlower")
++    // @Include("wctype.h")
++    // @Unmanaged
++    // private static native int toLowerCaseSystem(int codePoint);
+ 
+     public static char toUpperCase(char ch) {
+         return (char) toUpperCase((int) ch);
+@@ -259,13 +260,14 @@ public class TCharacter extends TObject implements TComparable<TCharacter> {
+     }
+ 
+     private static int toUpperCaseLowLevel(int codePoint) {
+-        return toUpperCaseSystem(codePoint);
++        return codePoint;
++        // return toUpperCaseSystem(codePoint);
+     }
+ 
+-    @Import(module = "teavm", name = "towupper")
+-    @Include("wctype.h")
+-    @Unmanaged
+-    private static native int toUpperCaseSystem(int codePoint);
++    // @Import(module = "teavm", name = "towupper")
++    // @Include("wctype.h")
++    // @Unmanaged
++    // private static native int toUpperCaseSystem(int codePoint);
+ 
+     public static int toTitleCase(int codePoint) {
+         int[] mapping = getTitleCaseMapping();
+diff --git a/classlib/src/main/java/org/teavm/classlib/java/lang/TRuntime.java b/classlib/src/main/java/org/teavm/classlib/java/lang/TRuntime.java
+index da09f6ad..b9c2c946 100644
+--- a/classlib/src/main/java/org/teavm/classlib/java/lang/TRuntime.java
++++ b/classlib/src/main/java/org/teavm/classlib/java/lang/TRuntime.java
+@@ -34,6 +34,10 @@ public class TRuntime {
+     public void exit(@SuppressWarnings("unused") int status) {
+     }
+ 
++    public int availableProcessors() {
++        return 1;
++    }
++
+     /**
+      * Returns the amount of free memory in the system. Calling the gc method
+      * may result in increasing the value returned by freeMemory.
+@@ -85,4 +89,4 @@ public class TRuntime {
+     private long totalMemoryLowLevel() {
+         return GC.availableBytes();
+     }
+-}
+\ No newline at end of file
++}
+diff --git a/classlib/src/main/java/org/teavm/classlib/java/util/concurrent/atomic/TAtomicReferenceFieldUpdater.java b/classlib/src/main/java/org/teavm/classlib/java/util/concurrent/atomic/TAtomicReferenceFieldUpdater.java
+new file mode 100644
+index 00000000..7c3f25e3
+--- /dev/null
++++ b/classlib/src/main/java/org/teavm/classlib/java/util/concurrent/atomic/TAtomicReferenceFieldUpdater.java
+@@ -0,0 +1,20 @@
++package org.teavm.classlib.java.util.concurrent.atomic;
++
++@SuppressWarnings("NonAtomicOperationOnVolatileField")
++public class TAtomicReferenceFieldUpdater<T, V> {
++    protected TAtomicReferenceFieldUpdater() {
++    }
++
++    public static <U, W> TAtomicReferenceFieldUpdater<U, W> newUpdater(
++        Class<U> tclass,
++        Class<W> vclass,
++        String fieldName,
++    ) {
++        // Just stub this out, the call stack is
++        // https://github.com/square/wire/blob/c43245964fcd3b5d0c2ac87a0b0bf05aa4e043eb/wire-library/wire-runtime/src/commonMain/kotlin/com/squareup/wire/ReverseProtoWriter.kt#L61-L62
++        // This isn't used but needs to be present for compiling:
++        // https://github.com/JetBrains/kotlin/blob/3e8f7b8ee4bfbd7db805f20085783e9287bcccc9/libraries/stdlib/jvm/src/kotlin/util/LazyJVM.kt#L36-L37
++        // https://github.com/JetBrains/kotlin/blob/3e8f7b8ee4bfbd7db805f20085783e9287bcccc9/libraries/stdlib/jvm/src/kotlin/util/LazyJVM.kt#L124-L129
++        return null;
++    }
++}
+-- 
+2.38.1
+

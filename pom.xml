@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>buildbreaker.plugin</groupId>
+	<artifactId>protoc-gen-kt</artifactId>
+	<packaging>jar</packaging>
+	<version>0.0.1</version>
+	<properties>
+		<teavm.version>0.2.6</teavm.version>
+	</properties>
+	<dependencies>
+		<!-- Emulator of Java class library for TeaVM -->
+		<dependency>
+			<groupId>com.fermyon</groupId>
+			<artifactId>teavm-classlib</artifactId>
+			<version>${teavm.version}-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<!-- Configure TeaVM -->
+			<plugin>
+				<groupId>com.fermyon</groupId>
+				<artifactId>teavm-maven-plugin</artifactId>
+				<version>${teavm.version}</version>
+				<executions>
+					<execution>
+						<id>wasm-plugin</id>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<classFiles>${project.basedir}/bazel-bin/plugin/generator_exec_deploy.jar</classFiles>
+							<targetDirectory>${project.build.directory}/generated/wasm/teavm-wasm</targetDirectory>
+							<targetType>WEBASSEMBLY</targetType>
+							<mainClass>buildbreaker.plugin.Main</mainClass>
+							<classesToPreserve>buildbreaker.plugin.Main</classesToPreserve>
+							<debugInformationGenerated>true</debugInformationGenerated>
+							<minifying>false</minifying>
+							<optimizationLevel>SIMPLE</optimizationLevel>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
